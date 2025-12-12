@@ -75,18 +75,18 @@ export class RegisterPageComponent implements OnInit {
     instaId: "",
     facebook: "",
     email: "",
-    applino: "",
-    halltno: ""
+    // applino: "",
+    // halltno: ""
   }
-errors = {
-  firstName: "",
-  lastName: "",
-  dateOfBirth: "",
-  mobileNo: "",
-  fatherName: "",
-  motherName: "",
-  district: ""
-};
+  errors: { [key: string]: string } = {
+    firstName: "",
+    lastName: "",
+    dateOfBirth: "",
+    mobileNo: "",
+    fatherName: "",
+    motherName: "",
+    district: ""
+  };
 
   userCredentials = {
     userId: "",
@@ -110,57 +110,60 @@ errors = {
     // this.windowRef.recaptchaVerifier.render();
     this.authService.setupReCaptcha('recaptcha-container');
   }
+
+
   validateForm(): boolean {
-  let isValid = true;
+    let isValid = true;
 
-  // Reset all errors
-  this.errors = {
-    firstName: "",
-    lastName: "",
-    dateOfBirth: "",
-    mobileNo: "",
-    fatherName: "",
-    motherName: "",
-    district: ""
-  };
+    // Reset all errors
+    this.errors = {
+      firstName: "",
+      lastName: "",
+      dateOfBirth: "",
+      mobileNo: "",
+      fatherName: "",
+      motherName: "",
+      district: ""
+    };
 
-  if (!this.formData.firstName.trim()) {
-    this.errors.firstName = "First Name is required";
-    isValid = false;
+    if (!this.formData.firstName.trim()) {
+      this.errors["firstName"] = "First Name is required";
+      isValid = false;
+    }
+
+    if (!this.formData.lastName.trim()) {
+      this.errors["lastName"] = "Last Name is required";
+      isValid = false;
+    }
+
+    if (!this.formData.dateOfBirth) {
+      this.errors["dateOfBirth"] = "Date of Birth is required";
+      isValid = false;
+    }
+
+    if (!this.formData.mobileNo || this.formData.mobileNo.length !== 10) {
+      this.errors["mobileNo"] = "Mobile number must be 10 digits";
+      isValid = false;
+    }
+
+    if (!this.formData.fatherName.trim()) {
+      this.errors["fatherName"] = "Father Name is required";
+      isValid = false;
+    }
+
+    if (!this.formData.motherName.trim()) {
+      this.errors["motherName"] = "Mother Name is required";
+      isValid = false;
+    }
+
+    if (!this.formData.district.trim()) {
+      this.errors["district"] = "District is required";
+      isValid = false;
+    }
+
+    return isValid;
   }
 
-  if (!this.formData.lastName.trim()) {
-    this.errors.lastName = "Last Name is required";
-    isValid = false;
-  }
-
-  if (!this.formData.dateOfBirth) {
-    this.errors.dateOfBirth = "Date of Birth is required";
-    isValid = false;
-  }
-
-  if (!this.formData.mobileNo || this.formData.mobileNo.length !== 10) {
-    this.errors.mobileNo = "Mobile number must be 10 digits";
-    isValid = false;
-  }
-
-  if (!this.formData.fatherName.trim()) {
-    this.errors.fatherName = "Father Name is required";
-    isValid = false;
-  }
-
-  if (!this.formData.motherName.trim()) {
-    this.errors.motherName = "Mother Name is required";
-    isValid = false;
-  }
-
-  if (!this.formData.district.trim()) {
-    this.errors.district = "District is required";
-    isValid = false;
-  }
-
-  return isValid;
-}
 
   loadDistricts() {
     this.districtList = [
@@ -185,11 +188,41 @@ errors = {
     return parts[2] + parts[1] + parts[0]; // ddmmyyyy
   }
 
-  onRegisterNow(form: any) {
-     if (!this.validateForm()) {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    return;
+  clearError(field: string) {
+    this.errors[field] = "";
   }
+  onDistrictChange() {
+    if (this.formData.district && this.formData.district.trim() !== "") {
+      this.errors['district'] = "";
+    }
+  }
+
+  validateMobile() {
+    const value = this.formData.mobileNo;
+
+    if (!value || value.trim() === "") {
+      this.mobileError = "Mobile number is required.";
+      return;
+    }
+
+    if (value.length !== 10) {
+      this.mobileError = "Mobile number must be 10 digits.";
+      return;
+    }
+
+    this.mobileError = ""; // Clear error
+  }
+  onRegisterNow(form: any) {
+    if (!this.validateForm()) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    // 2️⃣ Check if OTP is Verified
+    if (!this.isValidOtp) {
+      this.openSnackBar("Please verify your mobile number before submitting!", "");
+      return;
+    }
 
     const formattedDob = this.convertDobFormat(this.formData.dateOfBirth);
     console.log(formattedDob)
@@ -211,12 +244,11 @@ errors = {
       facebookID: this.formData.facebook,
       instaID: this.formData.instaId,
       emailID: this.formData.email,
-      hallTicketNo: this.formData.applino,
-      applicationNo: this.formData.halltno,
+      // hallTicketNo: this.formData.applino,
+      // applicationNo: this.formData.halltno,
     };
 
     console.log(apiObj)
-    // this.loading = true;
     let token
     this.Customerservice.showLoader.next(true);
     this.Customerservice.goToSignup(apiObj, token).subscribe((posRes: any) => {
@@ -224,10 +256,6 @@ errors = {
       if (posRes.response == 3) {
         this.Customerservice.showLoader.next(false);
         this.openSnackBar(posRes.message, "");
-        // localStorage.setItem('token', posRes.token);
-        // localStorage.setItem('svituser', JSON.stringify(posRes.CustomerInfo));
-        // this.Customerservice.checkIsLoggedIn.next(true);
-        // this.Customerservice.isUserLoggedIn.next(true);
         this.userCredentials = {
           userId: this.formData.mobileNo,
           password: formattedDob,
@@ -239,12 +267,10 @@ errors = {
         this.openSnackBar(posRes.message, "");
         this.router.navigateByUrl('/login')
       }
-      // this.loading = false;
     },
       (err: HttpErrorResponse) => {
         this.openSnackBar(err.message, "");
         this.Customerservice.showLoader.next(false);
-        // this.loading = false;
         if (err.error instanceof Error) {
           console.warn("Client SIde Error", err.error);
         } else {
@@ -294,46 +320,12 @@ errors = {
       .then(response => {
         console.log(response)
         if (response.success) {
-          // this.isLoading = false;
-          // this.isSendOTP = true;
-          // this.startTimer();
           this.openOtpModal();
           console.log(response.message);
         } else {
-          // this.isLoading = false;
           console.error(response.message);
         }
       });
-
-    // 2. Create reCAPTCHA (only once)
-    // if (!this.windowRef.recaptchaVerifier) {
-    //   this.windowRef.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-    //     // size: 'invisible'
-    //     size: 'normal'
-    //   });
-    // }
-
-    // const appVerifier = this.windowRef.recaptchaVerifier;
-    // const phoneNumber = "+91" + this.formData.mobileNo;
-
-    // console.log('Phone number being sent to Firebase:', phoneNumber);
-
-    // firebase
-    //   .auth()
-    //   .signInWithPhoneNumber(phoneNumber, appVerifier)
-    //   .then((result) => {
-    //     console.log(result)
-    //     if (result) {
-    //       console.log(result)
-
-    //     } else {
-    //       console.log(result)
-    //     }
-    //   })
-    //   .catch((error) => {
-
-    //     console.error('Error sending OTP:', error);
-    //   });
   }
 
   openOtpModal() {
@@ -356,40 +348,7 @@ errors = {
     });
   }
 
-  onVerify2(): void {
-    if (!this.formData.mobileNo || this.formData.mobileNo.length !== 10) {
-      this.mobileError = "Enter valid mobile number";
-      return;
-    }
-
-    this.mobileError = "";
-
-    // if (this.formData.mobileNo != '' || this.formData.mobileNo == null) {
-    const dialogRef = this.dialog.open(VerificationComponent, {
-      hasBackdrop: true,
-      disableClose: true,
-      panelClass: "col-md-3",
-      backdropClass: 'custom-backdrop',
-      // data: senddata
-    });
-
-    dialogRef.afterClosed().subscribe((res) => {
-      if (res) {
-        // this.windowRef.confirmationResult
-        //   .confirm(this.otp)
-        //   .then((result: any) => {
-        //   })
-        //   .catch((error: any) => {
-
-        //     console.warn(error, "Wrong Code entered..");
-        //   });
-      }
-
-    });
-
-  }
   loginNow(): void {
-    // Navigate to login page
     this.router.navigate(["/login"])
   }
 
@@ -398,13 +357,4 @@ errors = {
     let result = patt.test(event.key);
     return result;
   }
-  // copyUserId(): void {
-  //   navigator.clipboard.writeText(this.userCredentials.userId)
-  //   alert("User ID copied to clipboard!")
-  // }
-
-  // copyPassword(): void {
-  //   navigator.clipboard.writeText(this.userCredentials.password)
-  //   alert("Password copied to clipboard!")
-  // }
 }

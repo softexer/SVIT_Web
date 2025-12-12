@@ -241,7 +241,7 @@
     }
 
     .verify-btn {
-        width: 100%;
+        width: 40%;
     }
 }
 
@@ -483,3 +483,4 @@
   font-size: 11px;
   color: red
 }
+
