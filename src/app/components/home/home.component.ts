@@ -12,17 +12,19 @@ export class HomeComponent {
 
  }
 
-  exams = ['EAPCET', 'EMCET'];
+  exams = ['EAPCET', 'ECET'];
   onChange(e: Event) {
     // ngModel already sets selectedExam, but keep if you need extra logic
     this.selectedExam = (e.target as HTMLSelectElement).value;
     if(this.selectedExam !=''){
     localStorage.setItem('PreSelectExam',this.selectedExam)
+    //  this.router.navigateByUrl('/register');
      this.router.navigateByUrl('/login');
     }
   }
   AdminLogin(){
-    const targetUrl = 'https://svit-admin.surge.sh/#/login';
+    // const targetUrl = 'https://svit-admin.surge.sh/#/login';
+    const targetUrl = 'https://admin.atpsvit.softexer.com/#/login';
   window.open(targetUrl, '_blank');
   }
 }

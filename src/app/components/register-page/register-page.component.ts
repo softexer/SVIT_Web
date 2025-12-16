@@ -96,18 +96,6 @@ export class RegisterPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadDistricts();
-    // if (!firebase.apps.length) {
-    //   firebase.initializeApp(firconfig);
-    // }
-    // this.windowRef = this.win.windowRef;
-    // const auth = getAuth();
-    // this.windowRef.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
-    //   "recaptcha-container",
-    //   {
-    //     size: "invisible",
-    //   }
-    // );
-    // this.windowRef.recaptchaVerifier.render();
     this.authService.setupReCaptcha('recaptcha-container');
   }
 
