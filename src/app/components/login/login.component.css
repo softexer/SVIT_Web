@@ -1,4 +1,4 @@
-.title-bar {
+/* .title-bar {
     background-color: rgba(0, 6, 96, 1);
     color: white;
     font-size: 14px;
@@ -10,6 +10,62 @@
     align-items: center;
     padding: 0 !important;
     line-height: normal !important;
+}
+
+.page-content {
+    margin-top: 120px;
+} */
+.title-bar {
+    background-color: rgba(0, 6, 96, 1);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Inter';
+    height: 38px;
+    display: flex;
+    justify-content: center;     /* keep title centered */
+    align-items: center;
+    position: relative;
+}
+
+.title-text {
+    pointer-events: none;
+}
+.contact-blink {
+    position: absolute;
+    left: 15px;
+    color: red;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+    animation: blinkSlow 3s infinite; /* ⏳ slower */
+}
+
+@keyframes blinkSlow {
+    0%   { opacity: 1; }
+    70%  { opacity: 1; }  /* 👀 visible for longer time */
+    80%  { opacity: 0; }  /* blink off */
+    90%  { opacity: 1; }  /* blink on */
+    100% { opacity: 1; }
+}
+
+
+/* ADMIN BUTTON */
+.admin-btn {
+    position: absolute;
+    right: 15px;
+    background: transparent;
+    border: 1px solid white;
+    padding: 3px 10px;
+    color: white;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.admin-btn:hover {
+    background: white;
+    color: rgba(0, 6, 96, 1);
 }
 
 .page-content {

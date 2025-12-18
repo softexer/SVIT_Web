@@ -50,6 +50,7 @@ export class RegisterPageComponent implements OnInit {
   isSuccessPage: boolean = false;
   windowRef: any;
   isValidOtp: boolean = false;
+  examtype: string="";
   constructor(private router: Router,
     private dialog: MatDialog,
     private Customerservice: SVITCustomerService,
@@ -69,12 +70,14 @@ export class RegisterPageComponent implements OnInit {
     motherName: "",
     aanchor: "",
     village: "",
+    street: "",
     mandal: "",
     district: "",
     collegeName: "",
     instaId: "",
     facebook: "",
     email: "",
+    collegeAddre: ""
     // applino: "",
     // halltno: ""
   }
@@ -85,7 +88,9 @@ export class RegisterPageComponent implements OnInit {
     mobileNo: "",
     fatherName: "",
     motherName: "",
-    district: ""
+    district: "",
+    collegeName: "",
+    // collegeAddre: ""
   };
 
   userCredentials = {
@@ -95,6 +100,8 @@ export class RegisterPageComponent implements OnInit {
   districtList: string[] = [];
 
   ngOnInit(): void {
+    this.examtype = localStorage.getItem('PreSelectExam') || '';
+    console.log(this.examtype)
     this.loadDistricts();
     this.authService.setupReCaptcha('recaptcha-container');
   }
@@ -111,16 +118,18 @@ export class RegisterPageComponent implements OnInit {
       mobileNo: "",
       fatherName: "",
       motherName: "",
-      district: ""
+      district: "",
+      collegeName: "",
+    // collegeAddre: ""
     };
 
     if (!this.formData.firstName.trim()) {
-      this.errors["firstName"] = "First Name is required";
+      this.errors["firstName"] = "Student First Name is required";
       isValid = false;
     }
 
     if (!this.formData.lastName.trim()) {
-      this.errors["lastName"] = "Last Name is required";
+      this.errors["lastName"] = "Student Last Name is required";
       isValid = false;
     }
 
@@ -148,6 +157,15 @@ export class RegisterPageComponent implements OnInit {
       this.errors["district"] = "District is required";
       isValid = false;
     }
+       if (!this.formData.collegeName.trim()) {
+      this.errors["collegeName"] = "College Name is required";
+      isValid = false;
+    }
+
+    // if (!this.formData.collegeAddre.trim()) {
+    //   this.errors["collegeAddre"] = "College Address is required";
+    //   isValid = false;
+    // }
 
     return isValid;
   }
@@ -232,6 +250,9 @@ export class RegisterPageComponent implements OnInit {
       facebookID: this.formData.facebook,
       instaID: this.formData.instaId,
       emailID: this.formData.email,
+      streetNo : this.formData.street,
+      collegeAddress : this.formData.collegeAddre,
+      register_type: this.examtype
       // hallTicketNo: this.formData.applino,
       // applicationNo: this.formData.halltno,
     };
@@ -337,7 +358,7 @@ export class RegisterPageComponent implements OnInit {
   }
 
   loginNow(): void {
-    this.router.navigate(["/login"])
+     this.router.navigateByUrl('/login');
   }
 
   numericOnly(event: any) {

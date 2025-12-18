@@ -1,19 +1,35 @@
-<div class="page-content">
+<!-- <div class="page-content">
     <div class="title-bar">
         Mock Exam Portal
     </div>
+</div> -->
+<div class="page-content">
+    <div class="title-bar">
+
+        <!-- LEFT CONTACT -->
+        <div class="contact-blink">
+            Contact Us:
+            <span>7093227022</span>,
+            <span>7093237022</span>,
+            <span>7995187022</span>
+        </div>
+
+        <!-- CENTER TITLE -->
+        <span class="title-text">Mock Exam Portal</span>
+
+        <!-- RIGHT ADMIN -->
+        <!-- <button class="admin-btn" (click)="AdminLogin()">Admin</button> -->
+    </div>
 </div>
-
-
 <div class="registration-container" *ngIf="!isSuccessPage">
     <div class="registration-card">
         <h1 class="registration-title">Registration Form</h1>
         <form #regForm="ngForm" (ngSubmit)="onRegisterNow(regForm)" class="registration-form">
             <div class="row">
                 <div class="col-md-4 form-group">
-                    <label class="form-label">First Name :</label>
+                    <label class="form-label">Student First Name :</label>
                     <input type="text" class="form-control form-input" [(ngModel)]="formData.firstName"
-                       (ngModelChange)="clearError('firstName')" name="firstName" />
+                        (ngModelChange)="clearError('firstName')" name="firstName" maxlength="80" />
 
                     <small class="text-danger" *ngIf="errors['firstName']">
                         {{ errors['firstName'] }}
@@ -21,9 +37,9 @@
 
                 </div>
                 <div class="col-md-4 form-group">
-                    <label class="form-label">Last Name :</label>
+                    <label class="form-label">Student Last Name :</label>
                     <input type="text" class="form-control form-input" [(ngModel)]="formData.lastName" name="lastName"
-                       (ngModelChange)="clearError('lastName')" required />
+                        (ngModelChange)="clearError('lastName')" required maxlength="80" />
                     <small class="text-danger" *ngIf="errors['lastName']">
                         {{ errors['lastName'] }}
                     </small>
@@ -32,7 +48,7 @@
                 <div class="col-md-4 form-group">
                     <label class="form-label">Date of Birth (DOB) :</label>
                     <input type="date" class="form-control form-input" [(ngModel)]="formData.dateOfBirth" required
-                     (ngModelChange)="clearError('dateOfBirth')"   name="dateOfBirth" />
+                        (ngModelChange)="clearError('dateOfBirth')" name="dateOfBirth" />
                     <small class="text-danger" *ngIf="errors['dateOfBirth']">
                         {{ errors['dateOfBirth'] }}
                     </small>
@@ -45,8 +61,8 @@
                     <label class="form-label">Mobile No. :</label>
                     <div class="mobile-input-wrapper">
                         <input type="text" class="form-control form-input" (keypress)="numericOnly($event)"
-                            [(ngModel)]="formData.mobileNo" name="mobileNo" 
-                             (ngModelChange)="validateMobile()" required maxlength="10" />
+                            [(ngModel)]="formData.mobileNo" name="mobileNo" (ngModelChange)="validateMobile()" required
+                            maxlength="10" />
 
                         <button type="button" class="verify-btn" (click)="onVerify()" [disabled]="isValidOtp">
                             {{ isValidOtp ? 'Verified' : 'Verify' }}
@@ -63,7 +79,7 @@
                 <div class="col-md-4 form-group">
                     <label class="form-label">Father Name :</label>
                     <input type="text" class="form-control form-input" [(ngModel)]="formData.fatherName"
-                      (ngModelChange)="clearError('fatherName')"  name="fatherName" required />
+                        (ngModelChange)="clearError('fatherName')" name="fatherName" required maxlength="80" />
                     <small class="text-danger" *ngIf="errors['fatherName']">
                         {{ errors['fatherName'] }}
                     </small>
@@ -72,13 +88,100 @@
                 <div class="col-md-4 form-group">
                     <label class="form-label">Mother Name :</label>
                     <input type="text" class="form-control form-input" [(ngModel)]="formData.motherName"
-                      (ngModelChange)="clearError('motherName')"  name="motherName" required />
+                        (ngModelChange)="clearError('motherName')" name="motherName" required maxlength="80" />
                     <small class="text-danger" *ngIf="errors['motherName']">
                         {{ errors['motherName'] }}
                     </small>
 
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-md-4 form-group">
+                    <label class="form-label">District :</label>
+                    <select class="form-control form-input" [(ngModel)]="formData.district" name="district"
+                        #district="ngModel" (ngModelChange)="onDistrictChange()" required>
+
+                        <option value="">Select District</option>
+                        <option *ngFor="let d of districtList" [value]="d">
+                            {{ d }}
+                        </option>
+                    </select>
+                    <small class="text-danger" *ngIf="errors['district']">
+                        {{ errors['district'] }}
+                    </small>
+                </div>
+
+                <div class="col-md-4 form-group">
+                    <label class="form-label">Village :</label>
+                    <input type="text" class="form-control form-input" [(ngModel)]="formData.village" name="village"
+                        maxlength="120" />
+                </div>
+                <div class="col-md-4 form-group">
+                    <label class="form-label">Street No/Door No :</label>
+                    <input type="text" class="form-control form-input" [(ngModel)]="formData.street" name="street"
+                        maxlength="70" />
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 form-group">
+                    <label class="form-label">Mandal :</label>
+                    <input type="text" class="form-control form-input" [(ngModel)]="formData.mandal" name="mandal"
+                        maxlength="120" />
+                </div>
+                <div class="col-md-4 form-group">
+                    <label class="form-label">
+                        {{ examtype === 'EAPCET'
+                        ? 'Intermediate College Name :'
+                        : 'Diploma College Name :' }}
+                    </label>
+                    <input type="text" class="form-control form-input" [(ngModel)]="formData.collegeName"
+                        name="collegeName" (ngModelChange)="clearError('collegeName')" maxlength="150" />
+                    <small class="text-danger" *ngIf="errors['collegeName']">
+                        {{ errors['collegeName'] }}
+                    </small>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label class="form-label">
+                        {{ examtype === 'EAPCET'
+                        ? 'Intermediate College Address :'
+                        : 'Diploma College Address :' }}
+                    </label>
+                    <input type="text" class="form-control form-input" [(ngModel)]="formData.collegeAddre"
+                        name="collegeAddre" maxlength="200" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 form-group">
+                    <label class="form-label">Insta ID (optional) :</label>
+                    <input type="text" class="form-control form-input" [(ngModel)]="formData.instaId" name="instaId"
+                        maxlength="70" />
+                </div>
+                <div class="col-md-4 form-group">
+                    <label class="form-label">Facebook (optional) :</label>
+                    <input type="text" class="form-control form-input" [(ngModel)]="formData.facebook" name="facebook"
+                        maxlength="70" />
+                </div>
+                <div class="col-md-4 form-group">
+                    <label class="form-label">Email (optional) :</label>
+                    <input type="email" class="form-control form-input" [(ngModel)]="formData.email" name="email"
+                        pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" #emailRef="ngModel" maxlength="100" />
+                    <small class="text-danger" *ngIf="emailRef.invalid && emailRef.value">
+                        Invalid email format
+                    </small>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 form-group">
+                    <label class="form-label">Student Aadhar Number(optional) :</label>
+                    <input type="text" class="form-control form-input" [(ngModel)]="formData.aanchor" name="aanchor" />
+                </div>
+            </div>
+
 
             <!-- <div class="row">
                 <div class="col-md-4 form-group">
@@ -95,67 +198,7 @@
                     <label class="form-label">Aadhar Number(optional) :</label>
                     <input type="text" class="form-control form-input" [(ngModel)]="formData.aanchor" name="aanchor" />
                 </div>
-
             </div> -->
-
-
-
-            <div class="row">
-                <div class="col-md-4 form-group">
-                    <label class="form-label">District :</label>
-
-                    <select class="form-control form-input" [(ngModel)]="formData.district" name="district"
-                        #district="ngModel" (ngModelChange)="onDistrictChange()"required>
-
-                        <option value="">Select District</option>
-                        <option *ngFor="let d of districtList" [value]="d">
-                            {{ d }}
-                        </option>
-                    </select>
-
-                    <small class="text-danger" *ngIf="errors['district']">
-                        {{ errors['district'] }}
-                    </small>
-
-                </div>
-
-                <div class="col-md-4 form-group">
-                    <label class="form-label">Village :</label>
-                    <input type="text" class="form-control form-input" [(ngModel)]="formData.village" name="village" />
-                </div>
-                <div class="col-md-4 form-group">
-                    <label class="form-label">Mandal :</label>
-                    <input type="text" class="form-control form-input" [(ngModel)]="formData.mandal" name="mandal" />
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-4 form-group">
-                    <label class="form-label">College Name :</label>
-                    <input type="text" class="form-control form-input" [(ngModel)]="formData.collegeName"
-                        name="collegeName" />
-                </div>
-                <div class="col-md-4 form-group">
-                    <label class="form-label">Insta ID (optional) :</label>
-                    <input type="text" class="form-control form-input" [(ngModel)]="formData.instaId" name="instaId" />
-                </div>
-                <div class="col-md-4 form-group">
-                    <label class="form-label">Facebook (optional) :</label>
-                    <input type="text" class="form-control form-input" [(ngModel)]="formData.facebook"
-                        name="facebook" />
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-4 form-group">
-                    <label class="form-label">Email (optional) :</label>
-                    <input type="email" class="form-control form-input" [(ngModel)]="formData.email" name="email" />
-                </div>
-                <div class="col-md-4 form-group">
-                    <label class="form-label">Aadhar Number(optional) :</label>
-                    <input type="text" class="form-control form-input" [(ngModel)]="formData.aanchor" name="aanchor" />
-                </div>
-            </div>
             <div class="row justify-content-center align-items-center">
                 <div class="col-md-12">
                     <button type="submit" class="register-now-btn">Register Now</button>

@@ -1,4 +1,4 @@
-<div class="page-content">
+<!-- <div class="page-content">
     <div class="title-bar">
         <span class="title-text">Mock Exam Portal</span>
         <span class="admin-btn">
@@ -9,11 +9,34 @@
             </span>
         </span>
     </div>
+</div> -->
+<div class="page-content">
+    <div class="title-bar">
+        <!-- LEFT CONTACT -->
+        <div class="contact-blink">
+            Contact Us:
+            <span>7093227022</span>,
+            <span>7093237022</span>,
+            <span>7995187022</span>
+        </div>
+
+        <!-- CENTER TITLE -->
+        <span class="title-text">Mock Exam Portal</span>
+
+        <!-- RIGHT ADMIN -->
+        <!-- <button class="admin-btn" (click)="AdminLogin()">Admin</button> -->
+        <span class="admin-btn">
+            <span class="timer-value">
+                <span class="timer-icon">⏱️</span>
+                {{ formatTime(state.timeRemaining) }}
+
+            </span>
+        </span>
+    </div>
 </div>
 
-
 <div class="test-container">
-      <!-- TIME UP MESSAGE -->
+    <!-- TIME UP MESSAGE -->
     <div *ngIf="timeUp" class="time-up-box">
         ⏳ Your time is up!
     </div>
@@ -27,19 +50,20 @@
                 <p class="question-text">{{ getCurrentQuestion().text }}</p>
             </div>
             <div class="options-section">
-                <div class="row" >
-               
+                <div class="row">
+
                     <div class="col-md-5">
 
                         <label class="option" *ngFor="let option of getCurrentQuestion().options; let i = index">
 
-                    <input type="radio" class="option-radio" [name]="'question' + state.currentQuestion" [value]="i"
-                        [checked]="state.userAnswers[state.currentQuestion] === i" (change)="selectAnswer(i)" />
+                            <input type="radio" class="option-radio" [name]="'question' + state.currentQuestion"
+                                [value]="i" [checked]="state.userAnswers[state.currentQuestion] === i"
+                                (change)="selectAnswer(i)" />
 
-                    <span class="option-label">({{ getOptionLetter(i) }})</span>
-                    <span class="option-text">{{ option }}</span>
+                            <span class="option-label">({{ getOptionLetter(i) }})</span>
+                            <span class="option-text">{{ option }}</span>
 
-                </label>
+                        </label>
 
                     </div>
 
@@ -79,11 +103,11 @@
 
             <!-- Footer Stats -->
             <div class="footer-wrapper">
-                <div class="footer-stats">                    
+                <div class="footer-stats">
                     <div class="stat stat-border">Attempted: {{ getResults().attempted }}</div>
                     <div class="stat stat-border">Yet to Attempt: {{ getResults().yet }}</div>
                     <!-- <div class="stat">Score: {{ getResults().marks }}/{{ questions.length * 2 }}</div> -->
-                      <div class="stat">Score: {{ 0 }}/{{ questions.length * 2 }}</div>
+                    <div class="stat">Score: {{ 0 }}/{{ questions.length * 2 }}</div>
                 </div>
             </div>
         </div>
@@ -97,7 +121,7 @@
                 <div class="question-section">
                     <div class="footer-wrapper">
                         <div class="footer-stats">
-                           <div class="stat stat-border">Marks: {{ getFinalResults().marks }}</div>
+                            <div class="stat stat-border">Marks: {{ getFinalResults().marks }}</div>
                             <div class="stat stat-border">Correct Attempt: {{ getFinalResults().correct }}</div>
                             <div class="stat stat-border">Wrong Attempt: {{ getFinalResults().wrong }}</div>
                             <div class="stat stat-border">Not Attempt: {{ getFinalResults().skipped }}</div>

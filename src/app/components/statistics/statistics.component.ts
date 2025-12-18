@@ -221,9 +221,16 @@ export class StatisticsComponent implements OnInit {
 
   onTestClick(test: Test, testType: string): void {
     console.log(test)
+    let titles = ""
+    if(testType === 'application'){
+      titles = "Enter Your Registration Number"
+    }
+    else{
+       titles = "Enter Your HallTicket Number"
+    }
     localStorage.setItem("SelectedTest", JSON.stringify(test));
     let senddata = {
-      title: "Enter Your Application Number"
+      title: titles
     }
     const dialogRef = this.dialog.open(GetnumberComponent, {
       hasBackdrop: true,
