@@ -1,26 +1,11 @@
 
-/* 
-.title-bar {
-    background-color: rgba(0, 6, 96, 1);
-    color: white;
-    font-size: 14px;
-    font-weight: 600;
-    font-family: 'Inter';
-    height: 38px;
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
-    padding: 0 !important;
-    line-height: normal !important;
-} */
- 
  .title-bar {
     background-color: rgba(0, 6, 96, 1);
     color: white;
     font-size: 14px;
     font-weight: 600;
     font-family: 'Inter';
-    height: 38px;
+   height: 45px;
     display: flex;
     justify-content: center;     /* keep title centered */
     align-items: center;
@@ -33,7 +18,7 @@
 .contact-blink {
     position: absolute;
     left: 15px;
-    color: red;
+    color: white;
     font-size: 13px;
     font-weight: 700;
     white-space: nowrap;

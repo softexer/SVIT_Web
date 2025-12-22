@@ -234,3 +234,23 @@
     font-weight: 400;
     color:rgba(55, 54, 54, 1)
 }
+.otp-wrapper {
+  width: 100%;
+  max-width: 320px;
+  margin: auto;
+  font-family: 'Poppins';
+}
+
+.feedback-input {
+  width: 100%;
+  text-align: center;
+  letter-spacing: 6px;
+}
+
+.resend-otp {
+  margin-top: 10px;
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+  color: #007bff;
+}

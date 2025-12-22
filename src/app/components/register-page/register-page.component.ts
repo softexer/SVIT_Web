@@ -318,13 +318,11 @@ export class RegisterPageComponent implements OnInit {
   mobileError: string = "";
 
   onVerify(): void {
-    // 1. Validate mobile number
     if (!this.formData.mobileNo || this.formData.mobileNo.length !== 10) {
       this.mobileError = "Enter valid mobile number";
       return;
     }
     this.mobileError = "";
-
     this.authService.sendOtp("+91" + this.formData.mobileNo)
       .then(response => {
         console.log(response)
